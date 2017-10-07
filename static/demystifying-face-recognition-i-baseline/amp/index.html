@@ -1,3 +1,4 @@
+
 <head>
     <meta charset="utf-8">
 
@@ -19,7 +20,7 @@
     <meta property="og:url" content="http://localhost:2368/demystifying-face-recognition-i-baseline/">
     <meta property="og:image" content="http://localhost:2368/content/images/2017/10/faceresnet.png">
     <meta property="article:published_time" content="2017-10-07T05:29:36.000Z">
-    <meta property="article:modified_time" content="2017-10-07T05:29:36.000Z">
+    <meta property="article:modified_time" content="2017-10-07T05:44:09.000Z">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Demystifying Face Recognition I: Baseline">
     <meta name="twitter:description" content="Test różnych architektur sieci Zgodnie z założeniami, mamy gotową bazę danych (CASIA-WebFace), zdefiniowany obraz wejściowy  (112x96) oraz DA jako mirror, a całość będzie traktowana jako zadanie klasyfikacji. Czyli ostatnim elementem, który został nam to wybór architektektury. Ostatnie lata obfitowały w wiele różnorodnych technik, takich jak ResNet, Inception, DenseNet czy Inception-ResNet.">
@@ -48,7 +49,7 @@
     "headline": "Demystifying Face Recognition I: Baseline",
     "url": "http://localhost:2368/demystifying-face-recognition-i-baseline/",
     "datePublished": "2017-10-07T05:29:36.000Z",
-    "dateModified": "2017-10-07T05:29:36.000Z",
+    "dateModified": "2017-10-07T05:44:09.000Z",
     "image": {
         "@type": "ImageObject",
         "url": "http://localhost:2368/content/images/2017/10/faceresnet.png",
@@ -111,13 +112,13 @@
 <p><strong><a href="http://www.yugangjiang.info/publication/icmr17-face.pdf">Fudan-Arch</a></strong> - idea FaceResNet z BatchNorm. Autorzy zaproponowali dwie wersje sieci, Fast i Full model, różniącą się liczbą modułów w połączeniu residualnym.</p>
 <p>W większości przedstawonym powyżej architektur, jednym ze składników jest DropOut. Na obecnym etapie wolałbym uniknąć jego załączania, ale ze względu na walidację implementacji oraz możliwości sieci, każda z architektur zostanie przetestowana w dwóch wariantach: podstawowej oraz z Dropout. Do oceny każdej sieci wykorzystamy jej wyniki jakościowe (jak dokładność czy koszt) oraz parametry określajace czas do uzyskania wyniku. Model każdej z architekur został wybrany na podstawie modelu o najniższym walidacyjnym koszcie, czyli wynik LFW nie wpływał na wybór modelu, mimo że modele uzyskiwały lepsze rezultaty w innej epoce.</p>
 <h2 id="wyniki">Wyniki</h2>
-
+<amp-iframe width="840" height="790" frameborder="0" src="https://plot.ly/~melgor89/92.embed" sandbox="allow-scripts allow-same-origin" layout="responsive"></amp-iframe>
 <div>
-    <a href="https://plot.ly/~melgor89/98/?share_key=VSxvwfjwCjfc4arfLtqkce" target="_blank" title="blog1-plot-pure"></a>
+    <a href="https://plot.ly/~melgor89/98/?share_key=VSxvwfjwCjfc4arfLtqkce" target="_blank" title="blog1-plot-pure"><amp-img src="https://plot.ly/~melgor89/98.png?share_key=VSxvwfjwCjfc4arfLtqkce" alt="blog1-plot-pure" width="700" height="500" layout="responsive"></amp-img></a>
     
 </div>
 <div>
-    <a href="https://plot.ly/~melgor89/97/?share_key=Yn4LoxjBIG2zd42I8KMEfG" target="_blank" title="blog1-plot-dropout"></a>
+    <a href="https://plot.ly/~melgor89/97/?share_key=Yn4LoxjBIG2zd42I8KMEfG" target="_blank" title="blog1-plot-dropout"><amp-img src="https://plot.ly/~melgor89/97.png?share_key=Yn4LoxjBIG2zd42I8KMEfG" alt="blog1-plot-dropout" width="700" height="500" layout="responsive"></amp-img></a>
     
 </div>
 <h2 id="ocenajakociarchitektur">Ocena jakości Architektur</h2>

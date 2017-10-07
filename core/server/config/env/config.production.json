@@ -1,4 +1,5 @@
-{
+{   
+    "url": "https://melgor.github.io",
     "database": {
         "client": "mysql",
         "connection": {
