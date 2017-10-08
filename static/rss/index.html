@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:media="http://search.yahoo.com/mrss/"><channel><title><![CDATA[BLCV]]></title><description><![CDATA[Thoughts, stories and ideas.]]></description><link>http://localhost:2368/</link><image><url>http://localhost:2368/favicon.png</url><title>BLCV</title><link>http://localhost:2368/</link></image><generator>Ghost 1.8</generator><lastBuildDate>Sun, 08 Oct 2017 17:37:06 GMT</lastBuildDate><atom:link href="http://localhost:2368/rss/" rel="self" type="application/rss+xml"/><ttl>60</ttl><item><title><![CDATA[Demystifying Face Recognition I: Baseline]]></title><description><![CDATA[<div class="kg-card-markdown"><h1 id="testrnycharchitektursieci">Test różnych architektur sieci</h1>
+<p>Zgodnie z założeniami, mamy gotową bazę danych (CASIA-WebFace), zdefiniowany obraz wejściowy  (112x96) oraz DA jako <code>mirror</code>, a całość będzie traktowana jako zadanie klasyfikacji. Czyli ostatnim elementem, który został nam to wybór architektektury. Ostatnie lata obfitowały w wiele różnorodnych technik, takich jak <code>ResNet</code>, <code>Inception</code>, <code>DenseNet</code> czy <code>Inception-ResNet</code></p></div>]]></description><link>http://localhost:2368/demystifying-face-recognition-i-baseline/</link><guid isPermaLink="false">59d8661d71b26e116119e69d</guid><dc:creator><![CDATA[Bartosz Ludwiczuk]]></dc:creator><pubDate>Sat, 07 Oct 2017 05:29:36 GMT</pubDate><media:content url="http://localhost:2368/content/images/2017/10/faceresnet.png" medium="image"/><content:encoded><![CDATA[<div class="kg-card-markdown"><h1 id="testrnycharchitektursieci">Test różnych architektur sieci</h1>
+<img src="http://localhost:2368/content/images/2017/10/faceresnet.png" alt="Demystifying Face Recognition I: Baseline"><p>Zgodnie z założeniami, mamy gotową bazę danych (CASIA-WebFace), zdefiniowany obraz wejściowy  (112x96) oraz DA jako <code>mirror</code>, a całość będzie traktowana jako zadanie klasyfikacji. Czyli ostatnim elementem, który został nam to wybór architektektury. Ostatnie lata obfitowały w wiele różnorodnych technik, takich jak <code>ResNet</code>, <code>Inception</code>, <code>DenseNet</code> czy <code>Inception-ResNet</code>. Także w artykułach dotyczących Rozpoznawania Twarzy, autorzy proponowali własne wersje architektur. Obecnie skupimy się właśnie na tych ostatnich, głównie dlatego, że wiemy jaką jakość możemy z nich uzyskać oraz z powodu mniejszego liczby obliczeń. Przeanalizujemy także starsze architektury, aby pokazać czy struktury sieci mają aż takie znaczenie. Do dokładniejszych badań dotyczących architektury wrócimy, gdy przygotojemy dane wejściowe, operacje Data-Augumentation oraz funkcje celu (które także mogą służyć jako regularyzator).</p>
+<h2 id="opisarchitektur">Opis Architektur</h2>
+<p><strong><a href="http://yann.lecun.com/exdb/publis/pdf/lecun-01a.pdf">LeNet</a></strong> - Pierwsza konwolucyjna architektura wykorzystywana do przetwarzania obrazów. Wejściowy obraz: 28x24.</p>
+<p><strong><a href="http://mmlab.ie.cuhk.edu.hk/pdf/YiSun_CVPR14.pdf">DeepID</a></strong> - Jedna z pierwszych wyspecjalizowanych sieć wykorzystywanych do ‘Rozpoznawania twarzy’. Moc została zwiększona zwiększenie liczby filtrów oraz połączenie cech z dwóch warstw konwolucyjnych. Wejściowy rozmiar: 42x36.</p>
+<p><strong><a href="https://arxiv.org/abs/1412.1265">DeepID2+</a></strong> - Rozszerzona wersja DeepID, posiada jeszcze większą liczbę filtrów oraz rozmiar końcowych cech został zwiększony do 512. Wejściowy rozmiar: 56x48.</p>
+<p><strong><a href="https://arxiv.org/abs/1411.7923">Casia-Net</a></strong> - Sieć zaproponowana po pierwszych sukcesach VGG i GoogLeNet w konkursie ImageNet. Wykorzystuje koncept rozmiarów kerneli 3x3 oraz ‘Averege Pooling’.</p>
+<p><strong><a href="https://arxiv.org/abs/1511.02683">Light-CNN</a></strong>- Propozycja sieci wykorzystująca ‘MFM’ jako funkcję aktywacji. Autor wykazał, że sprawuje się o wiele lepiej niż ReLU, ELU czy PReLU.</p>
+<p><strong><a href="https://arxiv.org/abs/1611.08976">FaceResNet</a></strong> - Sieć zaproponowana przez autorów artykułów CenterLoss i RangeLoss, która wykorzystuje połączenia ‘resiudualne’, tak jak w ‘ResNet’. Nie wykorzystuje warstw ‘BatchNorm’ oraz zastępuje funkcje aktywacji ‘Relu’ funkcjami ‘PRelu’.</p>
+<p><strong><a href="https://arxiv.org/abs/1704.08063">SphereFace</a></strong> - Nowa wersja FaceResNet, którą główną zmianą jest usunięcie modułów MaxPool przez Konwolucje ze krokiem równym 2.</p>
+<p><strong><a href="http://www.yugangjiang.info/publication/icmr17-face.pdf">Fudan-Arch</a></strong> - idea FaceResNet z BatchNorm. Autorzy zaproponowali dwie wersje sieci, Fast i Full model, różniącą się liczbą modułów w połączeniu residualnym.</p>
+<p>W większości przedstawonym powyżej architektur, jednym ze składników jest DropOut. Na obecnym etapie wolałbym uniknąć jego załączania, ale ze względu na walidację implementacji oraz możliwości sieci, każda z architektur zostanie przetestowana w dwóch wariantach: podstawowej oraz z Dropout. Do oceny każdej sieci wykorzystamy jej wyniki jakościowe (jak dokładność czy koszt) oraz parametry określajace czas do uzyskania wyniku. Model każdej z architekur został wybrany na podstawie modelu o najniższym walidacyjnym koszcie, czyli wynik LFW nie wpływał na wybór modelu, mimo że modele uzyskiwały lepsze rezultaty w innej epoce.</p>
+<h2 id="wyniki">Wyniki</h2>
+<p align="center"><b>Training and LFW</b></p>
+<p align="center">
+<iframe width="840" height="910" frameborder="0" scrolling="no" src="https://plot.ly/~melgor89/92.embed"></iframe>
+</p>
+<iframe width="800" height="400" frameborder="0" scrolling="no" src="https://plot.ly/~melgor89/98.embed"></iframe>
+<iframe width="800" height="400" frameborder="0" scrolling="no" src="https://plot.ly/~melgor89/97.embed"></iframe>
+<p>Najpierw ocenimy architektury zawierające DropOut. Najlepszy wynik pod względem jakości na zbiorze walidacyjnym (~0.94) jak i na LFW (~0.98) uzyskują architektury Fudan. Następnie architektury SphereFace, FaceResNet, Light-CNN oraz CASIA uzyskują podobną jakość na zbiorze LFW (~0.97), jednak ich jakość na zbiorze walidacyjnym jest różna (od ~1.3 do ~1.0).  Można to zinterpretować, że cechy produkowane przez każdą z architektur mają podobną jakość, jedynie ostatnia warstwa kwalifikacyjna jest różnej jakości.  Jednakże tak nie jest, protokół BLUFR uwidacznia większe różnice w wynikach. Na prowadzenie wysuwa się SphereFace-64, a dopiero po nim są Fudan i FaceResNet. Warto zauważyć, że różnica 0.7% w LFW przeskalował się na różnicę 16% w protokole BLUFR-FAR 1% (porównując CASIA i SphereFace-64).<br>
+Gdy weźmiemy pod uwagę podstawowe architektury, wówczas Fudan-Full wygrywa w każdym z analizowanych benchmarków. Sądzę, że przyczyną tej sytucji jest BatchNorm, który także działa jako regularyzator.<br>
+Do dalszej analizy w innych benchmarkach zostaną wybrane najlepsze architektury, czyli: FaceResNet, SphereFace64 i FudanFull.</p>
+<p align="center"><b>IJB-A</b></p>
+<p align="center">
+<iframe width="800" height="200" frameborder="0" scrolling="no" src="//plot.ly/~melgor89/106.embed"></iframe>
+<iframe width="800" height="400" frameborder="0" scrolling="no" src="https://plot.ly/~melgor89/103.embed"></iframe>
+</p>
+<p>Tutaj, podobnie jak w LFW-BLUFR, najlepszy wynik uzyskuje SphereFace64. Dość dziwnie wypada wynik FundanFull, który jest naprawdę niski. Nie wiem co jest jego przyczyną, każda konfiguracja łączenia cech zawodzi.</p>
+<p align="center"><b>Mega Face</b></p>
+<p align="center">
+<iframe width="500" height="200" frameborder="0" scrolling="no" src="https://plot.ly/~melgor89/104.embed" align="center"></iframe>
+</p>
+<iframe width="800" height="400" frameborder="0" scrolling="no" src="https://plot.ly/~melgor89/105.embed"></iframe>
+<p></p>
+<p>W MegaFace w identyfikacji wygrywa FudanFull, natomiast w weryfiakcji SphereFace64 (gdzie FudanFull jest znacząco słabszy). Pokazuje to kolejną niestabilność FudanFull.</p>
+<p>Podsumowując, najlepszą przetestowaną architekturą jest SphereFace, a drugą jest FaceResNet. FudanFull także dobrze się spisuje, jednak należy wpierw wyjaśnic niskie  powody wyniki w niektórych benchmarkach ( sądzę, że to wina ekstrakcji cech z BatchNorm, ale przyjżymy się temu bliżej w kolejnych postach).</p>
+<h1 id="wybrbaseline">Wybór Baseline</h1>
+<p>Jeżeli porównamy czas potrzebny do uzyskania dobrego rezultatu, tutaj zdecydowanie najlepiej wypada FaceResNet-dropout, który jest tylko nieznacznie słabszy niż najlepszy model, ale uczył się prawie 3x krócej. Dlatego właśnie <strong>FaceResNet</strong> (bez dropout) zostanie wybrany jako bazowa architektura do dalszych eksperymentów, wraz z podstawowym wynikiem (<code>baseline</code>), który będziemy chcieli poprawić.</p>
+<h1 id="codalej">Co dalej?</h1>
+<p>Patrząć ogólnie na wyniki, widać, że można osiągnąć wynik ~98% na LFW wykorzystując jedynie podstawowe techniki nauki sieci. Jeszcze 3 lata temu byłby to bardzo dobry wynik, obecnie wielu naukowców zaproponowało dodatkowe techniki zwiększające możliwości architektur. Czy na pewno one działają oraz czy jakiego zysku możemy się spodziewać? Tego dowiemy się w kolejnych postach, a w najbliżysz przyjrzymy się przygotowaniu danych uczących.</p>
+</div>]]></content:encoded></item><item><title><![CDATA[Demystifying Face Recognition: Introduction]]></title><description><![CDATA[<div class="kg-card-markdown"><h2 id="wstp">Wstęp</h2>
+<p>W internecie można znaleźć dużą liczbę artykułów oraz materiałów  przedstawiającą technikę rozpoznawania twarzy. Większość z nich opiera się na wytłumaczeniu pipeline rozpoznawania wraz z wykorzystam przygotowanych, open-source bibliotek. Dobrymi przykładami materiałów jest OpenFace, Face-Net czy Dlib. Każdy z nich dostarcza algorytmy wysokiej jakość. Jednak co jeśli okazuje się, że</p></div>]]></description><link>http://localhost:2368/demystifain-face-recognition-part-1/</link><guid isPermaLink="false">59c3a0a57820e9423c4a9fad</guid><dc:creator><![CDATA[Bartosz Ludwiczuk]]></dc:creator><pubDate>Thu, 21 Sep 2017 11:30:07 GMT</pubDate><media:content url="http://localhost:2368/content/images/2017/10/Face-Recognition-Pipeline---Page-1-.png" medium="image"/><content:encoded><![CDATA[<div class="kg-card-markdown"><h2 id="wstp">Wstęp</h2>
+<img src="http://localhost:2368/content/images/2017/10/Face-Recognition-Pipeline---Page-1-.png" alt="Demystifying Face Recognition: Introduction"><p>W internecie można znaleźć dużą liczbę artykułów oraz materiałów  przedstawiającą technikę rozpoznawania twarzy. Większość z nich opiera się na wytłumaczeniu pipeline rozpoznawania wraz z wykorzystam przygotowanych, open-source bibliotek. Dobrymi przykładami materiałów jest OpenFace, Face-Net czy Dlib. Każdy z nich dostarcza algorytmy wysokiej jakość. Jednak co jeśli okazuje się, że algorytm nie spełnia naszych oczekiwań, jak go ulepszyć, jakie są możliwe metody? Oraz jak poprawnie przebadać algorytm, aby uzyskać odpowiedź, czy algorytm jest na pewno lepszy od poprzednio używanego? W serii blogów postaram się przybliżyć temat Rozpoznawania Twarzy, pokazać możliwe metody do zwiększenia jakości algorytmu oraz zweryfikować propozycje naukowców w kontrolowanych warunkach testowych. Najpierw przybliżmy temat testowania algorytmów rozpoznawania twarzy.</p>
+<p> </p>
+<h2 id="wiodcetechnikbadaniajakocialgorytmwrozpoznawaniatwarzy">Wiodące technik badania jakości algorytmów rozpoznawania twarzy</h2>
+<p>Temat rozpoznawania twarzy jest obecny w uczeniu maszynowym od dawna, jednak dopiero od 2008 widoczny jest postęp w osiągnięciu systemów dobrej jakości w warunkach niekontrolowanych. Przyczyną rozwoju technologii było przede wszystkim opublikowanie benchmarku o nazwie <a href="http://vis-www.cs.umass.edu/lfw/">LFW</a> (Labeled Faces in the Wild), który wyróżniał się przede wszystkim poprzez udostępnienie zdjęć zrobionych w niekontrolowanych warunkach. Główny test polegał na <code>Pair-Matching</code>, czyli na porównaniu zdjęć dwóch osób oraz wyrokowanie czy to jest ta sama czy inna osoba. Obecnie wiele metod na LFW uzyskuje wyniki bliskie doskonałości, ~99.5%. Ale jednocześnie taki rezultat nie gwarantuje bardzo dobrej jakości systemu w innych warunkach. Dlatego w 2014 zaproponowano rozszerzenie LFW (<a href="http://www.cbsr.ia.ac.cn/users/scliao/projects/blufr/">BLUFR</a>) o protokół weryfiakcji, ale na odpowiednim poziomie FAR oraz o wiele większą liczbę par (~500 mln). Wprowadzono także protokół Identyfikacji, który odzwierciedla rozpoznanawania twarz w warunkach testowych.</p>
+<p>W kolejnym roku zaproponowano kolejny benchmark rozpoznawania twarzy o nazwie '<a href="https://pdfs.semanticscholar.org/140c/95e53c619eac594d70f6369f518adfea12ef.pdf">IARPA Janus Benchmark A</a>'. W kwestii protokołów, są one podobne do BLUFR. Główną różnicą jest testowanie na trudniejszych, specjalnie wybrancych zdjęciach i klatkach z video. Wprowadzono także testowanie za pomocą <code>template</code>, zamiast pojedyńczych zdjęć. Czyli bazujemy na testowaniu w stylu <code>osoba v osoba</code> zamiast <code>zdjęcie vs zdjęcie</code>. Tworzenie <code>template</code> leży w geście użytkownika, który może wybrać swój sposób na łączenie cech (np. min, max czy mean).<br>
+ </p>
+<p align="center">
+<img alt="Demystifying Face Recognition: Introduction" src="http://localhost:2368/content/images/2017/10/janus_template.png">
+</p>
+<p>W 2017 roku wprowadzono rozszerzenie o nazwie <a href="http://biometrics.cse.msu.edu/Publications/Face/Whitelametal_IARPAJanusBenchmark-BFaceDataset_CVPRW17.pdf">Janus Benchmark-B Face Dataset</a> benchmarku, która poza zwiększeniem rozmiaru bazy danych, wprowadziło rozróżnienie pomiedzy testowaniem algorytmu na zdjęciach, na video lub na obu naraz. Dodatkowo wprowadza test klasteryzacji twarzy.</p>
+<p>Ostatnim popularnym benchmarkiem jest <a href="http://megaface.cs.washington.edu/">MegaFace</a>. Jak nazwa wskazuje, jest on benchmarkiem o dużo większej skali niż wszystkie inne, łącznie zawierając ponad 1 mln zdjęć. Istnieje dwa zbiory testowe, FaceScrub testujący zwykłą jakość algorytmu oraz FGNet, testujący age-invariant. Obie bazy są poddane testom na <code>distractors</code>. Tak jak inne benchmarki (oprócz najstarszego LFW), posiada dwa protokoły: weryfikacji(~ 4 bilion par) oraz identyfikacji. W przypadku <code>Challange 1</code>, naukowcy mają do wyboru dwa rodzaje testu: Small (dane uczące  &lt; 0.5M) oraz Large. W przypadku <code>Challange 2</code> do uczenia modelu mamy dostępną bazę danych udostępniona przez MegaFace o rozmiarze ~5M zdjęć. Umożliwia to testowanie przedewszystkim algorytmu uczącego, a nie bazy danych (jak to jest w przypadku  <code>Challange 1</code>, gdzie każdy może stosować własną bazę danych).</p>
+<p>Bardzo dobre zestawienie wyników benchmarków zostało przedstawione w pracy <a href="https://arxiv.org/abs/1511.02683">A Light CNN for Deep Face Representation with Noisy Labels</a>, w której autor zaprezentował bardzo dokładne porównanie jakości metod na wielu benchmarki dedykowane rozpoznawania twarzy (oprócz wyżej wymienionych: <a href="https://www.cs.tau.ac.il/~wolf/ytfaces/">YTF</a>, <a href="http://ieeexplore.ieee.org/document/4587572/">YTC</a>, <a href="http://www.cs.cmu.edu/afs/cs/project/PIE/MultiPie/Multi-Pie/Home.html">Multi-PIE</a>, <a href="http://bcsiriuschen.github.io/CARC/">CACD-VS</a>, <a href="http://www.cbsr.ia.ac.cn/english/NIR-VIS-2.0-Database.html">CASIA 2.0 NIR-VIS</a>,  <a href="http://ieeexplore.ieee.org/document/6805594/">Celebrity-1000 </a>). Analizując wyniki można zauważyć widać wyraźne różnice pomiędzy wynikami pomiędzy tymi samymi modeli w różnych testach (np. w jednym różnica pomiędzy modelami jest 0.5% a w inny 20%). W celu lepszego analizowania modelu, należałoby skupić się na benchmarkach wyraźnie pokazujących skoki jakości modeli, czyli należy unikać wyrokowanie co do jakości na podstawie tylko wyniku LFW, który jest najmniej wiarygodnym obecnie wynikiem.</p>
+<p> </p>
+<h2 id="wspczesnetechnikirozpoznawaniatwarzy">Współczesne techniki rozpoznawania twarzy</h2>
+<p>Główne metody rozpoznawania twarz opierają się na Deep Learningu. Naukowcy prześcigają się w metodach polepszania jakości za pomocą powiększana zbioru uczącego, zmiany architektur sieci czy zmiany funkcji celu. Za obecnie najlepszą technikę rozpoznawania twarzy uważam algorytm  <strong>Vocord</strong>, zwycięzcę benchmarku MegaFace oraz obecnie drugi najlepszy algorytm wg raportu <a href="https://www.nist.gov/sites/default/files/documents/2017/08/25/frvt_report_2017_08_25.pdf">NIST</a>. Niestety nie znamy żadnych szczegółów na temat wykorzystanych technik do uzyskania tak dobrego wyniku.<br>
+Jeżeli spojrzymy na inny benchmark, LFW, tutaj występuje wiele wyników osiągających wynik &gt; 99.5%, których na których znamy więcej szczegółów implementacyjnych. Większość z nich operuje na bazach danych około 2M zdjęć oraz kilku sieciach neuronowych. Prace proponują także inne podejścia do uczenia poprzez zmianę ‘pipeline’ lub dodanie nowej funkcji celu. Jednakże, wg. mnie taki opis eksperymentów nie zbliża nas do osiągnięcia jeszcze lepszych wyników w przyszłości, ponieważ nie da się z nich wyciągnąć konkretnych wniosków na temat procesu uczenia jak np.</p>
+<ul>
+<li>Czy twarz powinna być wyprofiliowana czy nie?</li>
+<li>Jakie techniki Data Augumentation pomagają?</li>
+<li>Jakie dodatki do architektur sieci pomagają?</li>
+<li>Jakie funkcje celu mają najkorzystniejszy wpływ na uczenie?</li>
+</ul>
+<p>Dzieje się tak, ponieważ każdy naukowiec używa swojej bazy danych, swojej koncepcji uczenia, nie zawsze dążą do osiągnięcia jak najlepszego wyniku, a do pokazania słuszności postawionej tezy.  Jest to oczywiście zrozumiałe podejście, ponieważ na tym polega nauka. Jednak w celach praktycznych, warto także zbadać obecne limity rozpoznawania twarzy, poprzez kombinację różnych technik.  W celu zaznajomienia się z  obecnymi wynikami na benchmarki LFW oraz YTF, prezentuję tabelę z pracy <a href="https://ydwen.github.io/papers/WenCVPR17.pdf">SphereFace</a>. Jest ona o tyle ciekawa, że ma podane także rozmiar bazy danych wykorzystanej do uczenia oraz liczbę wykorzystanych sieci neuronowych.<br>
+ </p>
+<p align="center">
+<img alt="Demystifying Face Recognition: Introduction" src="http://localhost:2368/content/images/2017/10/sphereface.png">
+</p>
+<p> </p>
+<p>Nie są to wszystkie dostępne, wyniki. Jednak pozwalają one nam na ogólny pogląd na dokładność algorytmów. Obecnie najwyższy wynik na LFW to <strong>99.83%</strong>, zarejestrowany przez firmę Glasix z następującym opisem metody:<br>
+Brief author's description:</p>
+<blockquote>
+<p>We followed the Unrestricted, Labeled Outside Data protocol. The ratio of White to Black to Asian is 1:1:1 in the train set, which contains 100,000 individuals and 2 million face images. We spent a week training the networks which contain a improved resnet34 layer and a improved triplet loss layer on a Dual Maxwell-Gtx titan x machine with a four-stage training method.</p>
+</blockquote>
+<p align="center">
+<img alt="Demystifying Face Recognition: Introduction" src="http://vis-www.cs.umass.edu/lfw/lfw_unrestricted_labeled_zm.png">
+</p>
+<p>Jeżeli chcecie zobaczyć więcej wyników, zapraszam na strony:</p>
+<ul>
+<li><a href="http://vis-www.cs.umass.edu/lfw/results.html">LFW</a></li>
+<li><a href="http://megaface.cs.washington.edu/results/facescrub.html">MegaFace</a><br>
+ </li>
+</ul>
+<h2 id="celseriipostw">Cel serii postów</h2>
+<p>Głównym celem serii postów, będzie opracowanie pełnego algorytmu, który będzie jak najlepiej działał na ogólno dostępnych benchmarkach, przy czym docelowym testem będzie <a href="http://megaface.cs.washington.edu/participate/challenge.html">MegaFace Challange 1 - Small</a> oraz <a href="http://megaface.cs.washington.edu/participate/challenge2.html">MegaFace Challange 2</a>. W tym celu będą testowanie każdy element z pipelinu, min. następujące idee:</p>
+<ul>
+<li>Dobór architektury sieci</li>
+<li>Techniki Data Augumentation</li>
+<li>Wybór algorytmu optymalizacji sieci</li>
+<li>Funkcje celu</li>
+</ul>
+<p> </p>
+<p>Aby mieć możliwość wyciągnięcia wniosków z eksperymentów zostaną założone ograniczenia oraz założenia początkowe, ułatwiające analizę wyników.<br>
+Ograniczenia:</p>
+<ul>
+<li>Wszystkie algorytmy będą operować na bazie danych <a href="http://www.cbsr.ia.ac.cn/english/CASIA-WebFace-Database.html">CASIA-WebFace</a> (0.5M zdjęć, 10k ludzi)</li>
+<li>90% zbioru danych będzie stanowić zbiór treningowy, 10% walidacyjny</li>
+<li>W czasie testowania modelu, dla każdego zdjecia będą ekstrakowane tylko jeden zbiór cech (czyli nie będziemy wykorzystywać <a href="https://github.com/happynear/NormFace/blob/master/MirrorFace.md">‘mirror-trick’</a></li>
+<li>Zawsze będzie wykorzystywany tylko jeden egzemplarz architektury sieci (czyli brak łączenia cech z kilku sieci)</li>
+<li>Początkowy LR został wybrany z setu: <em>0.1, 0.04, 0.01, 0.001.</em></li>
+<li>Do redukcji LR został wykorzystana algorytm detekcji <code>Plateu</code></li>
+</ul>
+<p>Założenia początkowe:</p>
+<ul>
+<li>Architektury sieci będą używały obrazów wykrytych oraz wyprofiliwanych za pomocą algorytmu MTCNN. Ich rozmiar wynosi 112x96.</li>
+<li>Podstawową techniką Data Augumentation podczas uczenia będzie ‘mirror’<br>
+ </li>
+</ul>
+<p><img src="http://localhost:2368/content/images/2017/10/sprite_image_69_w_111_h_130.png" alt="Demystifying Face Recognition: Introduction"><br>
+ </p>
+<p>Rozmiar bazy danych jak i obrazów wejściowych został tak dobrany, aby umożliwić uzyskanie wysokiej jakości metody, a jednocześnie skrócić czas jej działania. Liczba eksperymentów potrzebna do uzyskania końcowego wyniku jest ogromna, a moc obliczeniowa ograniczona.</p>
+<p>Jako podstawowy wyznacznik jakości metody będą brane pod uwagę dwa wyniki: LFW, LFW-BLUFR. Dodatkowo dla najlepszego modelu z danego postu zostaną przeprowadzonę testy na IARPA Janus Benchmark-A oraz MegaFace. W IJB-A <code>template</code> będzie zawsze tworzony za pomocą <code>mean</code>, po czym nastąpi normalizacja cech.</p>
+<p>Każdy z eksperymentów będzie porównywany do <code>baseline</code>, czyli wybranego sposobu (dane-&gt;architektura-&gt;funka celu), która uzyskała swój wynik dość prostymi metodami. Pozwoli to nam na ocenienie, czy nowa, zaproponowana technika wpływa na jakość algorytmu pozytywnie.</p>
+<p>To na tyle w wprowadzeniu, w następnym poście zajmiemy się stworzeniem <code>baseline</code>.</p>
+</div>]]></content:encoded></item></channel></rss>
