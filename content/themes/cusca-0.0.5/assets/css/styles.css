@@ -4580,6 +4580,9 @@ a.thumbnail {
 
 .fa-github-square:before {
   content: ""; }
+  
+.fa-kaggle-square:before {
+  content: ""; }
 
 .fa-upload:before {
   content: ""; }
@@ -4607,6 +4610,9 @@ a.thumbnail {
   content: ""; }
 
 .fa-github:before {
+  content: ""; }
+  
+.fa-kaggle:before {
   content: ""; }
 
 .fa-unlock:before {
@@ -4926,7 +4932,10 @@ a.thumbnail {
 
 .fa-github-alt:before {
   content: ""; }
-
+  
+.fa-kaggle-alt:before {
+  content: ""; }
+  
 .fa-folder-o:before {
   content: ""; }
 

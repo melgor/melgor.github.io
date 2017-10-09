@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <title>Demystifying Face Recognition: Introduction</title>
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" type="text/css" href="../../../../assets/css/styles.min.css?v=0837676639" />
+    <link rel="stylesheet" type="text/css" href="../../../../assets/css/vendors.min.css?v=0837676639" />
+
+    
+
+    
+
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,400i,500,700,700i" rel="stylesheet">
+
+    <meta name="description" content="What is Face Recognition About?" />
+    <link rel="shortcut icon" href="../../../../favicon.ico" type="image/x-icon" />
+    <link rel="canonical" href="index.html" />
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <link rel="amphtml" href="amp/index.html" />
+    
+    <meta property="og:site_name" content="BLCV- Bartosz Ludwiczuk Computer Vision" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="Demystifying Face Recognition: Introduction" />
+    <meta property="og:description" content="What is Face Recognition and this series about?" />
+    <meta property="og:url" content="http://localhost:2368/2017/09/21/demystifain-face-recognition-part-1/" />
+    <meta property="og:image" content="http://localhost:2368/content/images/2017/10/Face-Recognition-Pipeline---Page-1-.png" />
+    <meta property="article:published_time" content="2017-09-21T11:30:07.000Z" />
+    <meta property="article:modified_time" content="2017-10-09T14:02:03.000Z" />
+    <meta property="article:tag" content="face-recogition" />
+    
+    <meta property="article:publisher" content="https://www.facebook.com/bartosz.ludwiczuk" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Demystifying Face Recognition: Introduction" />
+    <meta name="twitter:description" content="What is Face Recognition and this series about?" />
+    <meta name="twitter:url" content="http://localhost:2368/2017/09/21/demystifain-face-recognition-part-1/" />
+    <meta name="twitter:image" content="http://localhost:2368/content/images/2017/10/Face-Recognition-Pipeline---Page-1-.png" />
+    <meta name="twitter:label1" content="Written by" />
+    <meta name="twitter:data1" content="Bartosz Ludwiczuk" />
+    <meta name="twitter:label2" content="Filed under" />
+    <meta name="twitter:data2" content="face-recogition" />
+    <meta property="og:image:width" content="2509" />
+    <meta property="og:image:height" content="689" />
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": "BLCV- Bartosz Ludwiczuk Computer Vision",
+        "logo": "http://localhost:2368/content/images/2017/10/logo.png"
+    },
+    "author": {
+        "@type": "Person",
+        "name": "Bartosz Ludwiczuk",
+        "url": "http://localhost:2368/author/bartosz/",
+        "sameAs": []
+    },
+    "headline": "Demystifying Face Recognition: Introduction",
+    "url": "http://localhost:2368/2017/09/21/demystifain-face-recognition-part-1/",
+    "datePublished": "2017-09-21T11:30:07.000Z",
+    "dateModified": "2017-10-09T14:02:03.000Z",
+    "image": {
+        "@type": "ImageObject",
+        "url": "http://localhost:2368/content/images/2017/10/Face-Recognition-Pipeline---Page-1-.png",
+        "width": 2509,
+        "height": 689
+    },
+    "keywords": "face-recogition",
+    "description": "What is Face Recognition and this series about?",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "http://localhost:2368/"
+    }
+}
+    </script>
+
+    <script type="text/javascript" src="../../../../public/ghost-sdk.js?v=0837676639"></script>
+<script type="text/javascript">
+ghost.init({
+	clientId: "ghost-frontend",
+	clientSecret: "867ed4731917"
+});
+</script>
+    <meta name="generator" content="Ghost 1.8" />
+    <link rel="alternate" type="application/rss+xml" title="BLCV- Bartosz Ludwiczuk Computer Vision" href="../../../../rss/index.html" />
+</head>
+<body class="post-template tag-face-recogition nav-closed">
+
+    <div class="off-canvas position-right" id="offCanvas" data-off-canvas>
+    <!-- Close button -->
+    <button class="close-button" aria-label="Close menu" type="button" data-close>
+        <span aria-hidden="true"><i class="fa fa-times close-off-canvas" aria-hidden="true"></i></span>
+    </button>
+
+    <div class="off-canvas-ct">
+
+        <div class="off-canvas-widget">
+            <h4>Navigation</h4>
+            <nav class="off-canvas-navigation">
+                <ul class="menu vertical">
+                        <li class="nav-item nav-home" role="presentation">
+        <a class="nav-link" href="../../../../index.html">Home</a>
+    </li>
+    <li class="nav-item nav-face-recognition" role="presentation">
+        <a class="nav-link" href="../../../../tag/face-recogition/index.html">Face Recognition</a>
+    </li>
+    <li class="nav-item nav-about" role="presentation">
+        <a class="nav-link" href="../../../../about-blcv/index.html">About</a>
+    </li>
+
+                </ul>
+            </nav>
+        </div>
+
+        <div class="off-canvas-widget">
+            <div class="category-widget-section side-widget">
+                <ul class="vertical menu" data-accordion-menu>
+                    <li>
+                        <a href="index.html#" class="tags-widget"><h4>Tag list</h4></a>
+                        <ul class="menu vertical nested" id="tag-list-off"></ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+</div>
+    <div class="off-canvas-content" data-off-canvas-content>
+        <header id="header">
+    <div class="primary-header">
+        <div class="row">
+            <div class="columns">
+                <a id="blog-logo" href="../../../../index.html">
+                        <img src="../../../../content/images/2017/10/logo.png" alt="BLCV- Bartosz Ludwiczuk Computer Vision" height="100" />
+                </a>
+                <ul class="no-bullet social-media clearfix">
+                    <li class="nd-social-facebook">
+                        <a target="_blank" href="https://www.facebook.com/bartosz.ludwiczuk"><i class="fa fa-facebook fa-lg"></i></a>
+                    </li>
+                    <li class="nd-social-github">
+                        <a target="_blank" href="https://github.com/melgor"><i class="fa fa-github fa-lg"></i></a>
+                    </li>
+                    <li class="nd-social-linkedin">
+                        <a target="_blank" href="https://www.linkedin.com/in/bartosz-ludwiczuk-a677a760/?trk=nav_responsive_tab_profile"><i class="fa fa-linkedin fa-lg"></i></a>
+                    </li>
+                    <li class="nd-social-quora">
+                        <a target="_blank" href="https://www.quora.com/profile/Bartosz-Ludwiczuk"><i class="fa fa-quora fa-lg"></i></a>
+                    </li>
+                    
+                    <li class="nd-social-kaggle">
+                        <a target="_blank" href="https://www.kaggle.com/melgor"><i class="fa fa-kaggle fa-lg"></i></a>
+                    </li>
+                </ul>
+                <div class="header-search">
+                    <form method="get" class="search-form form-inline" action="index.html#">
+                        <div class="input-group">
+                            <input id="search-field" type="search" class="search-field input-group-field" placeholder="Search" value="" name="s" title="Search for:">
+                            <div class="input-group-button">
+                                <button class="button transparent search-submit-icon">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="main-container" id="main-container">
+            <div class="navigation-container clearfix">
+    <div class="row">
+        <div class="columns">
+            <nav class="header-navigation show-for-medium">
+                <ul class="menu align-center header-nav">
+                        <li class="nav-item nav-home" role="presentation">
+        <a class="nav-link" href="../../../../index.html">Home</a>
+    </li>
+    <li class="nav-item nav-face-recognition" role="presentation">
+        <a class="nav-link" href="../../../../tag/face-recogition/index.html">Face Recognition</a>
+    </li>
+    <li class="nav-item nav-about" role="presentation">
+        <a class="nav-link" href="../../../../about-blcv/index.html">About</a>
+    </li>
+
+                </ul>
+            </nav>
+            <div class="top-bar-container" data-sticky-container>
+                <div class="show-off-canvas show-for-small-only sticky" data-sticky data-options="anchor: main-container; marginTop: 0; stickyOn: small;">
+                    <a data-toggle="offCanvas">Menu <i class="fa fa-bars" aria-hidden="true"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+            <div class="container">
+                
+
+    <div class="row medium-unstack">
+        <main id="content" class="content medium-8 large-9 columns" role="main">
+            <article class="post tag-face-recogition">
+
+                <header class="post-header">
+                        <figure class="image-feature"><img src="../../../../content/images/2017/10/Face-Recognition-Pipeline---Page-1-.png" /></figure>
+
+                    <div class="post-heading">
+                        <h1 class="post-title">Demystifying Face Recognition: Introduction</h1>
+                        <section class="post-meta">
+                            <time class="post-date" datetime="2017-09-21">21 September 2017</time>  on <a href="../../../../tag/face-recogition/index.html">face-recogition</a>
+                        </section>
+                    </div>
+                </header>
+
+                <section class="post-content">
+                    <div class="kg-card-markdown"><h2 id="wstp">Wstęp</h2>
+<p>W internecie można znaleźć dużą liczbę artykułów oraz materiałów  przedstawiającą technikę rozpoznawania twarzy. Większość z nich opiera się na wytłumaczeniu pipeline rozpoznawania wraz z wykorzystam przygotowanych, open-source bibliotek. Dobrymi przykładami materiałów jest OpenFace, Face-Net czy Dlib. Każdy z nich dostarcza algorytmy wysokiej jakość. Jednak co jeśli okazuje się, że algorytm nie spełnia naszych oczekiwań, jak go ulepszyć, jakie są możliwe metody? Oraz jak poprawnie przebadać algorytm, aby uzyskać odpowiedź, czy algorytm jest na pewno lepszy od poprzednio używanego? W serii blogów postaram się przybliżyć temat Rozpoznawania Twarzy, pokazać możliwe metody do zwiększenia jakości algorytmu oraz zweryfikować propozycje naukowców w kontrolowanych warunkach testowych. Najpierw przybliżmy temat testowania algorytmów rozpoznawania twarzy. Wstęp zakłada, że czytelnik ma podstawowe informacje na temat rozpoznawania twarzy.</p>
+<p> </p>
+<h2 id="wiodcetechnikbadaniajakocialgorytmwrozpoznawaniatwarzy">Wiodące technik badania jakości algorytmów rozpoznawania twarzy</h2>
+<p>Temat rozpoznawania twarzy jest obecny w uczeniu maszynowym od dawna, jednak dopiero od 2008 widoczny jest postęp w osiągnięciu systemów dobrej jakości w warunkach niekontrolowanych. Przyczyną rozwoju technologii było przede wszystkim opublikowanie benchmarku o nazwie <a href="http://vis-www.cs.umass.edu/lfw/">LFW</a> (Labeled Faces in the Wild), który wyróżniał się przede wszystkim poprzez udostępnienie zdjęć zrobionych w niekontrolowanych warunkach. Główny test polegał na <code>Pair-Matching</code>, czyli na porównaniu zdjęć dwóch osób oraz wyrokowanie czy to jest ta sama czy inna osoba. Obecnie wiele metod na LFW uzyskuje wyniki bliskie doskonałości, ~99.5%. Ale jednocześnie taki rezultat nie gwarantuje bardzo dobrej jakości systemu w innych warunkach. Dlatego w 2014 zaproponowano rozszerzenie LFW (<a href="http://www.cbsr.ia.ac.cn/users/scliao/projects/blufr/">BLUFR</a>) o protokół weryfiakcji, ale na odpowiednim poziomie FAR (False-Acceptane-Rate) oraz o wiele większą liczbę par (~500 mln). Wprowadzono także protokół Identyfikacji, który odzwierciedla rozpoznanawania twarz w warunkach testowych.</p>
+<p>W kolejnym roku zaproponowano kolejny benchmark rozpoznawania twarzy o nazwie '<a href="https://pdfs.semanticscholar.org/140c/95e53c619eac594d70f6369f518adfea12ef.pdf">IARPA Janus Benchmark A</a>'. W kwestii protokołów, są one podobne do BLUFR. Główną różnicą jest testowanie na trudniejszych, specjalnie wybrancych zdjęciach i klatkach z video. Wprowadzono także testowanie za pomocą <code>template</code>, zamiast pojedyńczych zdjęć. Czyli bazujemy na testowaniu w stylu <code>osoba v osoba</code> zamiast <code>zdjęcie vs zdjęcie</code>. Tworzenie <code>template</code> leży w geście użytkownika, który może wybrać swój sposób na łączenie cech (np. min, max czy mean).<br>
+ </p>
+<p align="center">
+<img alt="Template comparision at JANUS Benchmark" src="../../../../content/images/2017/10/janus_template.png">
+</p>
+<p>W 2017 roku wprowadzono rozszerzenie o nazwie <a href="http://biometrics.cse.msu.edu/Publications/Face/Whitelametal_IARPAJanusBenchmark-BFaceDataset_CVPRW17.pdf">Janus Benchmark-B Face Dataset</a> benchmarku, która poza zwiększeniem rozmiaru bazy danych, wprowadziło rozróżnienie pomiedzy testowaniem algorytmu na zdjęciach, na video lub na obu naraz. Dodatkowo wprowadza test klasteryzacji twarzy.</p>
+<p>Ostatnim popularnym benchmarkiem jest <a href="http://megaface.cs.washington.edu/">MegaFace</a>. Jak nazwa wskazuje, jest on benchmarkiem o dużo większej skali niż wszystkie inne, łącznie zawierając ponad 1 mln zdjęć. Istnieje dwa zbiory testowe, FaceScrub testujący zwykłą jakość algorytmu oraz FGNet, testujący age-invariant. Obie bazy są poddane testom na <code>distractors</code>. Tak jak inne benchmarki (oprócz najstarszego LFW), posiada dwa protokoły: weryfikacji(~ 4 bilion par) oraz identyfikacji. W przypadku <code>Challange 1</code>, naukowcy mają do wyboru dwa rodzaje testu: Small (dane uczące  &lt; 0.5M) oraz Large. W przypadku <code>Challange 2</code> do uczenia modelu mamy dostępną bazę danych udostępniona przez MegaFace o rozmiarze ~5M zdjęć. Umożliwia to testowanie przedewszystkim algorytmu uczącego, a nie bazy danych (jak to jest w przypadku  <code>Challange 1</code>, gdzie każdy może stosować własną bazę danych).</p>
+<p>Bardzo dobre zestawienie wyników benchmarków zostało przedstawione w pracy <a href="https://arxiv.org/abs/1511.02683">A Light CNN for Deep Face Representation with Noisy Labels</a>, w której autor zaprezentował bardzo dokładne porównanie jakości metod na wielu benchmarki dedykowane rozpoznawania twarzy (oprócz wyżej wymienionych: <a href="https://www.cs.tau.ac.il/~wolf/ytfaces/">YTF</a>, <a href="http://ieeexplore.ieee.org/document/4587572/">YTC</a>, <a href="http://www.cs.cmu.edu/afs/cs/project/PIE/MultiPie/Multi-Pie/Home.html">Multi-PIE</a>, <a href="http://bcsiriuschen.github.io/CARC/">CACD-VS</a>, <a href="http://www.cbsr.ia.ac.cn/english/NIR-VIS-2.0-Database.html">CASIA 2.0 NIR-VIS</a>,  <a href="http://ieeexplore.ieee.org/document/6805594/">Celebrity-1000 </a>). Analizując wyniki można zauważyć widać wyraźne różnice pomiędzy wynikami pomiędzy tymi samymi modeli w różnych testach (np. w jednym różnica pomiędzy modelami jest 0.5% a w inny 20%). W celu lepszego analizowania modelu, należałoby skupić się na benchmarkach wyraźnie pokazujących skoki jakości modeli, czyli należy unikać wyrokowanie co do jakości na podstawie tylko wyniku LFW, który jest najmniej wiarygodnym obecnie wynikiem.</p>
+<p> </p>
+<h2 id="wspczesnetechnikirozpoznawaniatwarzy">Współczesne techniki rozpoznawania twarzy</h2>
+<p>Główne metody rozpoznawania twarz opierają się na Deep Learningu. Naukowcy prześcigają się w metodach polepszania jakości za pomocą powiększana zbioru uczącego, zmiany architektur sieci czy zmiany funkcji celu. Za obecnie najlepszą technikę rozpoznawania twarzy uważam algorytm  <strong>Vocord</strong>, zwycięzcę benchmarku MegaFace oraz obecnie drugi najlepszy algorytm wg raportu <a href="https://www.nist.gov/sites/default/files/documents/2017/08/25/frvt_report_2017_08_25.pdf">NIST</a>. Niestety nie znamy żadnych szczegółów na temat wykorzystanych technik do uzyskania tak dobrego wyniku.<br>
+Jeżeli spojrzymy na inny benchmark, LFW, tutaj występuje wiele wyników osiągających wynik &gt; 99.5%, których na których znamy więcej szczegółów implementacyjnych. Większość z nich operuje na bazach danych około 2M zdjęć oraz kilku sieciach neuronowych. Prace proponują także inne podejścia do uczenia poprzez zmianę ‘pipeline’ lub dodanie nowej funkcji celu. Jednakże, wg. mnie taki opis eksperymentów nie zbliża nas do osiągnięcia jeszcze lepszych wyników w przyszłości, ponieważ nie da się z nich wyciągnąć konkretnych wniosków na temat procesu uczenia jak np.</p>
+<ul>
+<li>Czy twarz powinna być wyprofiliowana czy nie?</li>
+<li>Jakie techniki Data Augumentation pomagają?</li>
+<li>Jakie dodatki do architektur sieci pomagają?</li>
+<li>Jakie funkcje celu mają najkorzystniejszy wpływ na uczenie?</li>
+</ul>
+<p>Dzieje się tak, ponieważ każdy naukowiec używa swojej bazy danych, swojej koncepcji uczenia, nie zawsze dążą do osiągnięcia jak najlepszego wyniku, a do pokazania słuszności postawionej tezy.  Jest to oczywiście zrozumiałe podejście, ponieważ na tym polega nauka. Jednak w celach praktycznych, warto także zbadać obecne limity rozpoznawania twarzy, poprzez kombinację różnych technik.  Warto także zweryfikować pewne tezy w kontrolowanych warunkach, tak aby wszystkie testowne algorytmy miały równe szance. W celu zaznajomienia się z  obecnymi wynikami na benchmarki LFW oraz YTF, prezentuję tabelę z pracy <a href="https://ydwen.github.io/papers/WenCVPR17.pdf">SphereFace</a>. Jest ona o tyle ciekawa, że ma podane także rozmiar bazy danych wykorzystanej do uczenia oraz liczbę wykorzystanych sieci neuronowych.<br>
+ </p>
+<p align="center">
+<img alt="LFW and YTF scores of different approches" src="../../../../content/images/2017/10/sphereface.png">
+</p>
+<p> </p>
+<p>Nie są to wszystkie dostępne, wyniki. Jednak pozwalają one nam na ogólny pogląd na dokładność algorytmów. Obecnie najwyższy wynik na LFW to <strong>99.83%</strong>, zarejestrowany przez firmę Glasix z następującym opisem metody:<br>
+Brief author's description:</p>
+<blockquote>
+<p>We followed the Unrestricted, Labeled Outside Data protocol. The ratio of White to Black to Asian is 1:1:1 in the train set, which contains 100,000 individuals and 2 million face images. We spent a week training the networks which contain a improved resnet34 layer and a improved triplet loss layer on a Dual Maxwell-Gtx titan x machine with a four-stage training method.</p>
+</blockquote>
+<p align="center">
+<img alt="LFW Score plot" src="http://vis-www.cs.umass.edu/lfw/lfw_unrestricted_labeled_zm.png">
+</p>
+<p>Jeżeli chcecie zobaczyć więcej wyników, zapraszam na strony:</p>
+<ul>
+<li><a href="http://vis-www.cs.umass.edu/lfw/results.html">LFW</a></li>
+<li><a href="http://megaface.cs.washington.edu/results/facescrub.html">MegaFace</a><br>
+ </li>
+</ul>
+<h2 id="celseriipostw">Cel serii postów</h2>
+<p>Głównym celem serii postów, będzie opracowanie pełnego algorytmu, który będzie jak najlepiej działał na ogólno dostępnych benchmarkach, przy czym docelowym testem będzie <a href="http://megaface.cs.washington.edu/participate/challenge.html">MegaFace Challange 1 - Small</a> oraz <a href="http://megaface.cs.washington.edu/participate/challenge2.html">MegaFace Challange 2</a>. W tym celu będą testowanie każdy element z pipelinu, min. następujące idee:</p>
+<ul>
+<li>Dobór architektury sieci</li>
+<li>Przygotowanie danych wejściowych</li>
+<li>Techniki Data Augumentation</li>
+<li>Wybór algorytmu optymalizacji sieci</li>
+<li>Funkcje celu</li>
+</ul>
+<p> <br>
+Czyli na zakończenie dowiemy się jaki pipeline stworzyć, aby zmaksymalizować jakość modelu w zadaniach związanych z rozpoznawaniu twarzy. Jednakżem, aby mieć możliwość wyciągnięcia wniosków z eksperymentów zostaną założone ograniczenia oraz założenia początkowe, ułatwiające analizę wyników.<br>
+Ograniczenia:</p>
+<ul>
+<li>Wszystkie algorytmy będą operować na bazie danych <a href="http://www.cbsr.ia.ac.cn/english/CASIA-WebFace-Database.html">CASIA-WebFace</a> (0.5M zdjęć, 10k ludzi)</li>
+<li>90% zbioru danych będzie stanowić zbiór treningowy, 10% walidacyjny</li>
+<li>W czasie testowania modelu, dla każdego zdjecia będą ekstrakowane tylko jeden zbiór cech (czyli nie będziemy wykorzystywać <a href="https://github.com/happynear/NormFace/blob/master/MirrorFace.md">‘mirror-trick’</a></li>
+<li>Zawsze będzie wykorzystywany tylko jeden egzemplarz architektury sieci (czyli brak łączenia cech z kilku sieci)</li>
+<li>Początkowy LR został wybrany z setu: <em>0.1, 0.04, 0.01, 0.001.</em></li>
+<li>Do redukcji LR został wykorzystana algorytm detekcji <code>Plateu</code></li>
+</ul>
+<p>Założenia początkowe:</p>
+<ul>
+<li>Architektury sieci będą używały obrazów wykrytych oraz wyprofiliwanych za pomocą algorytmu MTCNN. Ich rozmiar wynosi 112x96.</li>
+<li>Podstawową techniką Data Augumentation podczas uczenia będzie ‘mirror’<br>
+ </li>
+</ul>
+<p><img src="../../../../content/images/2017/10/sprite_image_69_w_111_h_130.png" alt="Example of Aligned Faces"><br>
+ </p>
+<p>Rozmiar bazy danych jak i obrazów wejściowych został tak dobrany, aby umożliwić uzyskanie wysokiej jakości metody, a jednocześnie skrócić czas jej działania. Liczba eksperymentów potrzebna do uzyskania końcowego wyniku jest ogromna, a moc obliczeniowa ograniczona.</p>
+<p>Jako podstawowy wyznacznik jakości metody będą brane pod uwagę dwa wyniki: LFW, LFW-BLUFR (jako że te same obraz są wykorzystywane do obu benchmarków) . Dodatkowo dla najlepszego modelu z danego postu zostaną przeprowadzonę testy na IARPA Janus Benchmark-A oraz MegaFace (gdzie pełen test trawa nawet 3-4h). W IJB-A <code>template</code> będzie zawsze tworzony za pomocą <code>mean</code>, po czym nastąpi normalizacja cech.</p>
+<p>Każdy z eksperymentów będzie porównywany do <code>baseline</code>, czyli wybranego sposobu (<code>dane-&gt;architektura-&gt;funka celu</code>), która uzyskała swój wynik dość prostymi metodami. Pozwoli to nam na ocenienie, czy nowa, zaproponowana technika wpływa na jakość algorytmu pozytywnie. Jednak takie podejście nie jest doskonałe, czasami może sie zdażyć, że połączenie kilku technik dopiero odwierciedla realy wpływ każdej z niej. Niestety takie rezultaty mogą umknać, choć gdy przeprowadzę wszystkie eksperymenty, przeprowadzę łaczenie technik na ogromną skalę (czy to DA czy różne funckje celu z różnymi wagami), aby jednak postarać się uzyskać jak najlepszy rezultat. Jednak wcześniej chcę odsiać te techniki (np. funckji celu, których w ostatnim czasie zaproponowano dziesiątki), które nie wpływają na końcowy wynik w znaczym stopniu.</p>
+<p>Posty z każdego rodzaju eksperymentu będą na kształt raportu, który będzię podawał i analizował wyniki. Długość każdego z postów będzie zależała od tematu i ilości eksperymentów potrzebnych na potwierdzenie czy obalenia tezy. Spodziewam się, że np. dla samych funkcji celu poświęce około 4-5 postów.</p>
+<p>To na tyle w wprowadzeniu, mam nadzieję, że wszystko jasne. W następnym poście zajmiemy się stworzeniem <code>baseline</code>, czyli odnośnika do dalszych eksperymentów.</p>
+</div>
+                </section>
+
+                <footer class="post-footer">
+                    <section class="share">
+                        <p>Share this post: <br/>
+                            <a class="share-icon icon-twitter" href="https://twitter.com/intent/tweet?text=Demystifying%20Face%20Recognition%3A%20Introduction&amp;url=http://localhost:2368/2017/09/21/demystifain-face-recognition-part-1/"
+                               onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                                <i class="fa fa-twitter"></i>
+                            </a>
+                            <a class="share-icon icon-facebook"
+                               href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:2368/2017/09/21/demystifain-face-recognition-part-1/"
+                               onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                                <i class="fa fa-facebook"></i>
+                            </a>
+                            <a class="share-icon icon-google-plus" href="https://plus.google.com/share?url=http://localhost:2368/2017/09/21/demystifain-face-recognition-part-1/"
+                               onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                                <i class="fa fa-google-plus"></i>
+                            </a>
+                            <a class="share-icon icon-reddit" href="https://www.reddit.com/submit?url=http://localhost:2368/2017/09/21/demystifain-face-recognition-part-1/"
+                               onclick="window.open(this.href, 'reddit-share', 'width=850,height=530');return false;">
+                                <i class="fa fa-reddit-alien"></i>
+                            </a>
+                        </p>
+                    </section>
+
+                </footer>
+
+            </article>
+
+
+            <aside class="read-next row medium-unstack align-right">
+
+                <div class="medium-6 columns text-right">
+                    <a class="read-next-story" href="../../../10/07/demystifying-face-recognition-i-baseline/index.html">Demystifying Face Recognition I: Baseline</a>
+                    <a href="../../../10/07/demystifying-face-recognition-i-baseline/index.html"><span class="arrow arrow-right"><i class="fa fa-chevron-right" aria-hidden="true"></i></span></a>
+                </div>
+
+             </aside>
+
+            <h3>Comments:</h3>
+
+            <div id="disqus_thread"></div>
+            <script>
+                var disqus_config = function () {
+                    this.page.url = 'http://localhost:2368/2017/09/21/demystifain-face-recognition-part-1/';  // Replace PAGE_URL with your page's canonical URL variable
+                    this.page.identifier = '59c3a0a57820e9423c4a9fad'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+                };
+
+                (function() { // DON'T EDIT BELOW THIS LINE
+                    var d = document, s = d.createElement('script');
+                    s.async = true;
+                    s.src = 'https://melgor-github-io.disqus.com/embed.js';
+                    s.setAttribute('data-timestamp', +new Date());
+                    (d.head || d.body).appendChild(s);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+        </main>
+
+        <aside class="sidebar medium-4 large-3 columns show-for-medium">
+            <div class="widget">
+    <h4 class="widget-title">Featured Posts</h4>
+    <div class="widget-content">
+            <ul id="featured-posts" class="no-bullet">
+</ul>    </div>
+</div>
+
+<div class="widget">
+    <h4 class="widget-title">Tags</h4>
+    <div class="widget-content">
+        <ul class="menu" id="tag-list">
+                    <li><a class="tag" href="../../../../tag/face-recogition/index.html">face-recogition</a></li>
+        </ul>
+    </div>
+</div>
+
+        </aside>
+    </div>
+
+
+            </div>
+
+            <footer class="footer clearfix">
+    <section class="copyright"><a href="../../../../index.html">BLCV- Bartosz Ludwiczuk Computer Vision</a> &copy; 2017</section>
+    <section class="poweredby">Proudly published with <a href="https://ghost.org">Ghost</a></section>
+</footer>        </div>
+
+        
+    </div>
+
+    <div class="reveal" id="reveal-search">
+    <div id="results"></div>
+</div>
+    <script src="../../../../assets/js/vendors.min.js?v=0837676639"></script>
+    <script src="../../../../assets/js/main.min.js?v=0837676639"></script>
+
+        <script src="../../../../assets/js/prism.min.js?v=0837676639"></script>
+
+
+    <script>
+    window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+    ga('create', '[your-ga-id]', 'auto');
+    ga('send', 'pageview');
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script></body>
+</html>
